@@ -1,0 +1,36 @@
+{
+  "name": "openweather-app",
+  "version": "0.0.0",
+  "description": "A widget for openweathermap",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vansanblch/openweather-widget.git"
+  },
+  "keywords": [
+    "api",
+    "widget",
+    "weather",
+    "async",
+    "javascript",
+    "angularjs"
+  ],
+  "author": "Ivan Nikulin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vansanblch/openweather-widget/issues"
+  },
+  "homepage": "https://github.com/vansanblch/openweather-widget",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-coffee": "~0.8.2",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-uglify": "~0.3.2",
+    "grunt-contrib-connect": "~0.6.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-html2js": "~0.2.4"
+  }
+}
