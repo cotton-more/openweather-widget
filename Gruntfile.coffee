@@ -1,5 +1,6 @@
 module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-coffee'
+    grunt.loadNpmTasks 'grunt-contrib-copy'
     grunt.loadNpmTasks 'grunt-contrib-concat'
     grunt.loadNpmTasks 'grunt-contrib-watch'
     grunt.loadNpmTasks 'grunt-contrib-connect'
@@ -11,9 +12,6 @@ module.exports = (grunt) ->
         connect.static require('path').resolve(dir)
 
     grunt.initConfig
-        src: 'app'
-        build: 'build'
-        tmp: '.tmp'
         pkg: grunt.file.readJSON 'package.json'
 
         thirdParty: [
@@ -22,42 +20,56 @@ module.exports = (grunt) ->
             'bower_components/angular-route/angular-route.min.js'
         ]
 
-        coffee:
-            app:
-                options:
-                    bare: true
-                files: [
-                    expand: true
-                    cwd: 'app/coffee'
-                    src: [ '*.coffee' ]
-                    dest: '<%= build %>/scripts/built'
-                    ext: '.js'
-                ]
+        copy:
+            main:
+                src: 'app/index.html'
+                dest: 'build/index.html'
 
         concat:
             options:
                 stripBanners: true
             libs:
                 src: [ '<%= thirdParty %>' ]
-                dest: '<%= build %>/scripts/libs.js'
+                dest: 'build/scripts/libs.js'
+
+        coffee:
+            options:
+                bare: true
             app:
-                src: [ '<%= build %>/scripts/built/*.js' ]
-                dest: '<%= build %>/scripts/<%= pkg.name %>.js'
+                options:
+                    join: true
+                files:
+                    'build/scripts/<%= pkg.name %>.js': [
+                        'app/coffee/index.coffee'
+                    ]
 
         connect:
             options:
                 port: 9001
                 debug: true
-                keepalive: true
+                livereload: true
             server:
                 options:
-                    base: [
-                        'build'
-                    ]
+                    middleware: (connect) ->
+                        [
+                            require('connect-livereload')()
+                            mountFolder connect, 'build'
+                        ]
 
         watch:
             options:
                 livereload: true
+            html:
+                files: [ 'app/index.html' ]
+                tasks: [ 'copy' ]
             coffee:
-                files: [ 'app/coffee/**/*.coffee' ]
+                files: [ 'app/coffee/*.coffee' ]
                 tasks: [ 'coffee' ]
+
+    grunt.registerTask 'dev', [
+        'copy'
+        'concat:libs'
+        'coffee'
+        'connect'
+        'watch'
+    ]
