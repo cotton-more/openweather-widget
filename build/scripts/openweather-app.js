@@ -9,11 +9,18 @@
         $scope.cities = [];
         $scope.currentCity = null;
         return openweather.getCitiesByName($scope.cityName).then(function(res) {
+          $scope.message = null;
           if (res.data.cod === '200' && res.data.count) {
             if (res.data.count === 1) {
               return $scope.currentCity = res.data.list[0];
             } else {
               return $scope.cities = res.data.list;
+            }
+          } else {
+            if (res.data.message) {
+              return $scope.message = res.data.cod + ': ' + res.data.message;
+            } else {
+              return $scope.message = res.data.cod + ': error';
             }
           }
         });
@@ -32,13 +39,12 @@
         var params;
         params = {
           q: name,
-          type: 'accurate',
-          callback: 'JSON_CALLBACK'
+          type: 'accurate'
         };
         if (localStorage.getItem('openweather.appid')) {
           params.APPID = localStorage.getItem('openweather.appid');
         }
-        return $http.jsonp(url + 'find', {
+        return $http.get(url + 'find', {
           params: params
         });
       };

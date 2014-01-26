@@ -1,0 +1,47 @@
+.openweather {
+    width: 250px;
+    padding: 5px;
+    overflow: hidden;
+}
+.openweather label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+.openweather input {
+    border: 1px solid grey;
+    height: 20px;
+    margin-top: 3px;
+    outline: none;
+    padding: 3px;
+    line-height: 20px;
+    width: 150px;
+    float: left;
+}
+.openweather button {
+    width: 90px;
+    height: 28px;
+    float: right;
+    cursor: pointer;
+}
+.openweather .search-result {
+    clear: both;
+    padding-top: 10px;
+}
+.openweather .search-result ol {
+    margin: 0;
+}
+.openweather .search-result li {
+    transition: background-color 1s;
+    -webkit-transition: background-color 1s;
+    padding: 3px;
+    cursor: pointer;
+}
+.openweather .search-result li:hover {
+    background-color: lightblue;
+}
+.openweather .forecast {
+    box-shadow: 0px 0px 5px 1px;
+    padding: 5px;
+    margin-top: 5px;
+}
