@@ -1,31 +1,46 @@
 app = angular.module 'openweatherApp', []
 
 app.controller 'MainController', [
-    '$scope',
+    '$scope'
     'openweather'
     ($scope, openweather) ->
-        console.log openweather.getCitiesByName 'Moscow'
+        $scope.searchByCityName = ->
+            $scope.cities = []
+            $scope.currentCity = null
+            openweather.getCitiesByName($scope.cityName)
+                .then (res) ->
+                    if res.data.cod is '200' and res.data.count
+                        if res.data.count is 1
+                            $scope.currentCity = res.data.list[0]
+                        else
+                            $scope.cities = res.data.list
+
+        $scope.showForecast = (city) ->
+            $scope.currentCity = city
 ]
 
 app.service 'openweather', ['$http', ($http) ->
     url = 'http://api.openweathermap.org/data/2.5/'
 
-    unit = 'metric'
-
     @getCitiesByName = (name) ->
         params =
             q: name
-            units: unit
             type: 'accurate'
+            callback: 'JSON_CALLBACK'
 
         if localStorage.getItem 'openweather.appid'
             params.APPID = localStorage.getItem 'openweather.appid'
 
-        $http.get url + 'find',
+        $http.jsonp url + 'find',
             params: params
 
     return
 ]
 
 
-# app.directive
+app.filter 'temp', ->
+    k = 273.15
+    (input) ->
+        temp = parseFloat input - k
+        if not isNaN temp
+            temp.toFixed 1

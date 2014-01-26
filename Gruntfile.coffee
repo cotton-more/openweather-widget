@@ -33,8 +33,6 @@ module.exports = (grunt) ->
                 dest: 'build/scripts/libs.js'
 
         coffee:
-            options:
-                bare: true
             app:
                 options:
                     join: true

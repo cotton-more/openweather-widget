@@ -7,7 +7,36 @@
         <script src="/scripts/openweather-app.js"></script>
     </head>
     <body ng-app="openweatherApp">
-        <div ng-controller="MainController">
+        <div ng-controller="MainController" ng-cloak>
+            <label>Search city by name<input ng-model="cityName"></label>
+            <button ng-click="searchByCityName()">Search</button>
+
+            <div class="search-result">
+                <ol>
+                    <li ng-repeat="city in cities">
+                        <span ng-click="showForecast(city)">{{ city.name }}, {{ city.sys.country }}</span>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="forecast" ng-show="currentCity">
+                <div class="title">
+                    <strong>{{ currentCity.name }}, {{ currentCity.sys.country }}</strong>
+                </div>
+                <div class="temperature">
+                    Current temperature: {{ currentCity.main.temp|temp }}<span>°C</span>
+                </div>
+                <div class="cloudness">
+                    Cloudness: {{ currentCity.clouds.all }}%
+                </div>
+                <div class="city-weather">
+                    <div ng-repeat="weather in currentCity.weather">
+                        <img ng-src="{{ 'http://openweathermap.org/img/w/' + weather.icon + '.png' }}">
+                        <span>{{ weather.main }}</span>
+                        <span>{{ weather.description }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>
