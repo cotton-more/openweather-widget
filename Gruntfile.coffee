@@ -41,6 +41,13 @@ module.exports = (grunt) ->
                         'app/coffee/index.coffee'
                     ]
 
+        uglify:
+            options:
+                report: 'min'
+            app:
+                files:
+                    'build/scripts/<%= pkg.name %>.min.js': 'build/scripts/<%= pkg.name %>.js'
+
         connect:
             options:
                 port: 9001
