@@ -1,3 +1,5 @@
 node_modules
 bower_components
 build
+!build/scripts/openweather-app.js
+!build/scripts/openweather-app.min.js
